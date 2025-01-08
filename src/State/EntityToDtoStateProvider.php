@@ -56,7 +56,7 @@ class EntityToDtoStateProvider implements ProviderInterface
         $dto->name = $entity->getName();
         $dto->description = $entity->getDescription();
         $dto->createdAt = $entity->getCreatedAt();
-        $dto->isPublished = $entity->getIsPublished();
+        $dto->isPublished = $entity->isPublished();
 
         return $dto;
     }
