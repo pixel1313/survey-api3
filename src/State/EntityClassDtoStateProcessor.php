@@ -10,12 +10,13 @@ use ApiPlatform\State\ProcessorInterface;
 use App\ApiResource\SurveyApi;
 use App\Entity\Survey;
 use App\Repository\SurveyRepository;
+use App\Service\MapperService;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 class EntityClassDtoStateProcessor implements ProcessorInterface
 {
     public function __construct(
-        private SurveyRepository $surveyRepository,
+        private MapperService $mapperService,
         #[Autowire(service: PersistProcessor::class)] private ProcessorInterface $persistProcessor,
         #[Autowire(service: RemoveProcessor::class)] private ProcessorInterface $removeProcessor,
     )
@@ -25,9 +26,8 @@ class EntityClassDtoStateProcessor implements ProcessorInterface
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = [])
     {
-        assert($data instanceof SurveyApi);
 
-        $entity = $this->mapDtoToEntity($data);
+        $entity = $this->mapperService->map($data);
 
         if($operation instanceof DeleteOperationInterface) {
             $this->removeProcessor->process($entity, $operation, $uriVariables, $context);
@@ -39,27 +39,5 @@ class EntityClassDtoStateProcessor implements ProcessorInterface
         $data->id = $entity->getId();
 
         return $data;
-    }
-
-    private function mapDtoToEntity(object $dto): object
-    {
-        assert($dto instanceof SurveyApi);
-
-        if($dto->id) {
-            $entity = $this->surveyRepository->find($dto->id);
-
-            if(!$entity) {
-                throw new \Exception(sprintf('Entity %d not found', $dto->id));
-            }
-        } else {
-            $entity = new Survey();
-        }
-
-        $entity->setName($dto->name);
-        $entity->setDescription($dto->description);
-        $entity->setCreatedAt($dto->createdAt);
-        $entity->setIsPublished($dto->isPublished);
-
-        return $entity;
     }
 }
