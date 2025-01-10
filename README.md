@@ -38,3 +38,9 @@ symfony console doctrine:database:create
 symfony console doctrine:migrations:migrate
 
 ```
+
+
+# TODO items
+
+- [ ] Document Mapper system.
+- [ ] Document DTO convention.
