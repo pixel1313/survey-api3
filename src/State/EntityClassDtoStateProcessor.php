@@ -24,7 +24,7 @@ class EntityClassDtoStateProcessor implements ProcessorInterface
 
     }
 
-    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = [])
+    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): object|null
     {
 
         $entity = $this->mapperService->map($data);

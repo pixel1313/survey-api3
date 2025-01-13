@@ -5,3 +5,5 @@ api_platform:
         stateless: true
         cache_headers:
             vary: ['Content-Type', 'Authorization', 'Origin']
+    graphql:
+        graphql_playground: false

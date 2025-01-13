@@ -44,3 +44,4 @@ symfony console doctrine:migrations:migrate
 
 - [ ] Document Mapper system.
 - [ ] Document DTO convention.
+- [ ] Document test conventions.
